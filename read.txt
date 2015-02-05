@@ -1,0 +1,12 @@
+
+use git 
+
+add 
+
+puis 
+
+commit 
+
+puis push 
+
+// pull récupère les modifications 
