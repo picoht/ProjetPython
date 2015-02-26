@@ -1,6 +1,6 @@
 class Equipement : 
 
-	def __init__(self, comInsee, equipementId, equNom, insNumeroInstall): 
+	def __init__(self, equipementId, equNom, insNumeroInstall): 
 		self.comInsee = comInsee
 		self.equipementId = equipementId
 		self.equNom = equNom
@@ -8,9 +8,6 @@ class Equipement :
 
 	def get_EquipementId(self) : 
 		return str(self.equipementId)
-
-	def get_comInsee(self) : 
-		return str(self.comInsee)
 
 	def get_equNom(self) : 
 		return str(self.equNom)
@@ -20,9 +17,6 @@ class Equipement :
 
 	def set_EquipementId(self, t) : 
 		self.equipementId = t
-
-	def set_comInsee(self, t) : 
-		self.comInsee = t 
 
 	def set_equNom(self, t) : 
 		self.equNom = t 

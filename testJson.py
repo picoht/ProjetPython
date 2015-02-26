@@ -16,4 +16,3 @@ while i < 10 :
 	print(data["data"][i]["ActLib"]) 
 	print(data["data"][i]["EquipementId"]) 
 
-
