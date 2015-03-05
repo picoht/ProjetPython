@@ -2,7 +2,11 @@ import sqlite3
 
 class dataBase : 
 
-	def __init__(self): 
+
+	def __init__(self):
+		print("Base initialisée")
+
+	def createBase(self): 
 
 		conn = sqlite3.connect('installations.db')
 
@@ -31,7 +35,7 @@ class dataBase :
 		c = conn.cursor()
 
 		c.execute("DROP TABLE IF EXISTS activites")
-		c.execute('''CREATE TABLE equipements
+		c.execute('''CREATE TABLE activites
 		             (numeroAct integer, nomAct text, numeroEqu integer)''')
 
 		conn.commit()
@@ -80,7 +84,7 @@ class dataBase :
 		c = conn.cursor()
 
 		for row in c.execute("SELECT * FROM activites ORDER BY numeroAct"):
-    	print(row)
+			print(row)
 
 		conn.close()
 
@@ -90,7 +94,7 @@ class dataBase :
 		c = conn.cursor()
 
 		for row in c.execute("SELECT * FROM equipements ORDER BY numeroEqu"):
-    	print(row)
+			print(row)
 
 		conn.close()
 
@@ -101,6 +105,6 @@ class dataBase :
 		c = conn.cursor()
 
 		for row in c.execute("SELECT * FROM installations ORDER BY numeroIns"):
-    	print(row)
+			print(row)
 
 		conn.close()
