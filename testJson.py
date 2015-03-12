@@ -7,8 +7,12 @@ with open('data.paysdelaloire.fr.activite.json') as data_file:
 
 base = db.dataBase()
 base.createBase()
+i = 0 
 
-for item in data["actCode"] : 
-	base.insertActivite(item["actCode"], item["actLib"], item["equipementId"])
+for item in data["data"] : 
+	i+= 1 
+	base.insertActivite(item["ActCode"], item["ActLib"], item["EquipementId"])
+	print("insere !! " + str(i))
 
 base.selectActivites()
+

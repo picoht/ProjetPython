@@ -3,55 +3,37 @@ import sqlite3
 class dataBase : 
 
 
+
 	def __init__(self):
 		print("Base initialisée")
+		self.conn = sqlite3.connect('Bd.db')
+
+		self.c = self.conn.cursor()
 
 	def createBase(self): 
 
-		conn = sqlite3.connect('installations.db')
+		
 
-		c = conn.cursor()
-
-		c.execute("DROP TABLE IF EXISTS installations")
-		c.execute('''CREATE TABLE installations
+		self.c.execute("DROP TABLE IF EXISTS installations")
+		self.c.execute('''CREATE TABLE installations
 		             (numeroIns integer, nomIns text,code postal text, commune text, adresse text, longitude integer, latitude integer)''')
 
-		conn.commit()
-		conn.close()
-
-		conn = sqlite3.connect('equipements.db')
-
-		c = conn.cursor()
-
-		c.execute("DROP TABLE IF EXISTS equipements")
-		c.execute('''CREATE TABLE equipements
+		self.c.execute("DROP TABLE IF EXISTS equipements")
+		self.c.execute('''CREATE TABLE equipements
 		             (numeroEqu integer, nomEqu text, numeroIns integer)''')
 
-		conn.commit()
-		conn.close()
-
-		conn = sqlite3.connect('activites.db')
-
-		c = conn.cursor()
-
-		c.execute("DROP TABLE IF EXISTS activites")
-		c.execute('''CREATE TABLE activites
+		self.c.execute("DROP TABLE IF EXISTS activites")
+		self.c.execute('''CREATE TABLE activites
 		             (numeroAct integer, nomAct text, numeroEqu integer)''')
 
-		conn.commit()
-		conn.close()
+		self.conn.commit()
+
 
 	def insertActivite(self, actCode, actLib, equipementId): 
 
-		conn = sqlite3.connect('activites.db')
+		self.c.execute("INSERT INTO activites VALUES (?, ?, ?)",(actCode, actLib, equipementId))
 
-		c = conn.cursor()
-
-		c.execute('''INSERT INTO activites 
-  			  VALUES ({}, {}, {]})'''.format(actCode, actLib, equipementId))
-
-		conn.commit()
-		conn.close()
+		self.conn.commit()
 
 	def insertInstallation(self, insNom, insNumeroInstall, comLib, insCodePostal, insLibelleVoie, longitude, latitude): 
 
@@ -79,14 +61,10 @@ class dataBase :
 		conn.close()
 
 	def selectActivites(self): 
-		conn = sqlite3.connect('activites.db')
 
-		c = conn.cursor()
-
-		for row in c.execute("SELECT * FROM activites ORDER BY numeroAct"):
+		for row in self.c.execute("SELECT * FROM activites ORDER BY numeroAct"):
 			print(row)
 
-		conn.close()
 
 	def selectEquipements(self): 
 		conn = sqlite3.connect('equipements.db')
