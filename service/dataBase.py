@@ -41,17 +41,22 @@ class dataBase :
 	def insertInstallation(self, items): 
 
 		for item in items : 
-			self.c.execute('''INSERT INTO installations VALUES ({}, {}, {}, {}, {}, {}, {})'''.format
-				(item["InsNumeroInstall"], item["InsNom"], item["InsCodePostal"], item["ComLib"], item ["InsLibelleVoie"], item["Longitude"], item["Latitude"]))
+
+			print('''INSERT INTO installations VALUES ({}, "{}", {}, "{}", "{}", {}, {})'''.format
+				(item["InsNumeroInstall"], int (item["InsPartLibelle"].replace("none",0)),  item["InsCodePostal"], item["ComLib"], item ["InsLieuDit"], item["Longitude"], item["Latitude"]))
+
+
+			self.c.execute('''INSERT INTO installations VALUES ({}, "{}", {}, "{}", "{}", {}, {})'''.format
+				(item["InsNumeroInstall"], int (item["InsPartLibelle"].replace("none",0)) ,  item["InsCodePostal"], item["ComLib"], item ["InsLieuDit"], item["Longitude"], item["Latitude"]))
 
 		self.conn.commit()
 
 
 	def insertEquipement(self, items): 
 
-		for item in items : 
-			self.c.execute('''INSERT INTO equipements VALUES ({}, {}, {})'''.format
-				(item["EquipementId"], item["EquNom"], item["InsNumeroInstall"]))
+		for item in items :
+			self.c.execute('''INSERT INTO equipements VALUES ({}, "{}", {})'''.format
+				(item["EquipementId"], item["EquNom"].replace('"', "'"), item["InsNumeroInstall"]))
 
 		self.conn.commit()
 

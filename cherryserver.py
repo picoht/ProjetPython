@@ -6,17 +6,17 @@ base = db.dataBase()
 base.createBase()
 
 
-with open('ressource/data.paysdelaloire.fr.activite.json') as data_file:    
+with open('ressources/activite.json') as data_file:    
     data = json.load(data_file)
 
 base.insertActivite(data["data"])
 
-with open('ressource/data.paysdelaloire.fr.equipement.json') as data_file:    
+with open('ressources/equipement.json') as data_file:    
     data = json.load(data_file)
 
 base.insertEquipement(data["data"])
 
-with open('ressource/data.paysdelaloire.fr.installations.json') as data_file:    
+with open('ressources/installation.json') as data_file:    
     data = json.load(data_file)
 
 base.insertInstallation(data["data"])
