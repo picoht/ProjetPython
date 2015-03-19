@@ -1,8 +1,25 @@
 import cherrypy
 import json
+import service.dataBase as db 
+
+base = db.dataBase() 
+base.createBase()
 
 
-data = json.loads(open("data.paysdelaloire.fr.activite.json").read())
+with open('ressource/data.paysdelaloire.fr.activite.json') as data_file:    
+    data = json.load(data_file)
+
+base.insertActivite(data["data"])
+
+with open('ressource/data.paysdelaloire.fr.equipement.json') as data_file:    
+    data = json.load(data_file)
+
+base.insertEquipement(data["data"])
+
+with open('ressource/data.paysdelaloire.fr.installations.json') as data_file:    
+    data = json.load(data_file)
+
+base.insertInstallation(data["data"])
 
 
 class WebManager(object):
@@ -17,11 +34,25 @@ class WebManager(object):
         return "There are {0} items".format(len(data))
 
     @cherrypy.expose
-    def show_all(self):
+    def show_activites(self):
+        """
+        Exposes the service at localhost:8080/show_activites/
+        """
+        return base.selectActivites() 
+
+    @cherrypy.expose
+    def show_equipements(self):
         """
         Exposes the service at localhost:8080/show_all/
         """
-        return json.dumps(data)
+        return base.selectEquipements()
+
+    @cherrypy.expose
+    def show_installations(self):
+        """
+        Exposes the service at localhost:8080/show_all/
+        """
+        return base.selectInstallations()
 
     @cherrypy.expose
     def show(self, id):
