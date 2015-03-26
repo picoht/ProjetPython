@@ -1,6 +1,9 @@
 import cherrypy
 import json
 import service.dataBase as db 
+import modele.activite as activite
+import modele.equipement as aquipement
+import modele.installation as installation
 
 base = db.dataBase() 
 base.createBase()
@@ -9,12 +12,15 @@ base.createBase()
 with open('ressources/activite.json') as data_file:    
     data = json.load(data_file)
 
-base.insertActivite(data["data"])
+
+for item in data["data"]: 
+    base.insertActivite(activite.Activite(item["ActCode"], item["ActLib"], item["EquipementId"]))
 
 with open('ressources/equipement.json') as data_file:    
     data = json.load(data_file)
 
-base.insertEquipement(data["data"])
+for item in data["data"]: 
+    base.insertEquipement(equipement.Equipement(item["InsNumeroInstall"], item["InsPartLibelle"],  item["InsCodePostal"], item["ComLib"], item ["InsLieuDit"], item["Longitude"], item["Latitude"])))
 
 with open('ressources/installation.json') as data_file:    
     data = json.load(data_file)
@@ -38,21 +44,45 @@ class WebManager(object):
         """
         Exposes the service at localhost:8080/show_activites/
         """
-        return base.selectActivites() 
+        base2 = db.dataBase() 
+        results = base2.selectActivites()
+
+        s = ""
+
+        for row in results:
+            s += str(row)
+            
+        return s
 
     @cherrypy.expose
     def show_equipements(self):
         """
         Exposes the service at localhost:8080/show_all/
         """
-        return base.selectEquipements()
+        base2 = db.dataBase() 
+        results = base2.selectEquipements()
+
+        s = ""
+
+        for row in results:
+            s += str(row)
+            
+        return s
 
     @cherrypy.expose
     def show_installations(self):
         """
         Exposes the service at localhost:8080/show_all/
         """
-        return base.selectInstallations()
+        base2 = db.dataBase() 
+        results = base2.selectInstallations()
+
+        s = ""
+
+        for row in results:
+            
+
+        return s
 
     @cherrypy.expose
     def show(self, id):

@@ -18,15 +18,15 @@ class dataBase :
 
 		self.c.execute("DROP TABLE IF EXISTS installations")
 		self.c.execute('''CREATE TABLE installations
-		             (numeroIns integer, nomIns text,code postal text, commune text, adresse text, longitude integer, latitude integer)''')
+		             (numeroIns integer, nomIns varchar,code postal integer, commune varchar, adresse varchar, longitude integer, latitude integer)''')
 
 		self.c.execute("DROP TABLE IF EXISTS equipements")
 		self.c.execute('''CREATE TABLE equipements
-		             (numeroEqu integer, nomEqu text, numeroIns integer)''')
+		             (numeroEqu integer, nomEqu varchar, numeroIns integer)''')
 
 		self.c.execute("DROP TABLE IF EXISTS activites")
 		self.c.execute('''CREATE TABLE activites
-		             (numeroAct integer, nomAct text, numeroEqu integer)''')
+		             (numeroAct integer, nomAct varchar, numeroEqu integer)''')
 
 		self.conn.commit()
 
@@ -42,12 +42,15 @@ class dataBase :
 
 		for item in items : 
 
-			print('''INSERT INTO installations VALUES ({}, "{}", {}, "{}", "{}", {}, {})'''.format
-				(item["InsNumeroInstall"], int (item["InsPartLibelle"].replace("none",0)),  item["InsCodePostal"], item["ComLib"], item ["InsLieuDit"], item["Longitude"], item["Latitude"]))
+			if item["InsCodePostal"] == None : 
+				item["InsCodePostal"] = "0" 
+
+			print('''INSERT INTO installations VALUES ({}, "{}", "{}", "{}", "{}", {}, {})'''.format
+				(item["InsNumeroInstall"], item["InsPartLibelle"],  item["InsCodePostal"], item["ComLib"], item ["InsLieuDit"], item["Longitude"], item["Latitude"]))
 
 
 			self.c.execute('''INSERT INTO installations VALUES ({}, "{}", {}, "{}", "{}", {}, {})'''.format
-				(item["InsNumeroInstall"], int (item["InsPartLibelle"].replace("none",0)) ,  item["InsCodePostal"], item["ComLib"], item ["InsLieuDit"], item["Longitude"], item["Latitude"]))
+				(item["InsNumeroInstall"], item["InsPartLibelle"],  item["InsCodePostal"], item["ComLib"], item ["InsLieuDit"], item["Longitude"], item["Latitude"]))
 
 		self.conn.commit()
 

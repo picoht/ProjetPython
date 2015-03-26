@@ -1,6 +1,6 @@
 class Installation : 
 
-	def __init__(self, insNom, insNumeroInstall, comLib, insCodePostal, insLibelleVoie, longitude, latitude):
+	def __init__(self, insNumeroInstall, insNom, insCodePostal, comLib, insLibelleVoie, longitude, latitude):
 		self.insNom = insNom
 		self.insNumeroInstall = insNumeroInstall
 		self.comLib = comLib
