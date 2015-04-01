@@ -17,8 +17,6 @@ class dataBase :
 
 	def createBase(self): 
 
-		
-
 		self.c.execute("DROP TABLE IF EXISTS installations")
 		self.c.execute('''CREATE TABLE installations
 		             (numeroIns integer, nomIns varchar,code postal integer, commune varchar, adresse varchar, longitude integer, latitude integer)''')
@@ -36,7 +34,7 @@ class dataBase :
 
 	def insertActivite(self, activite): 
 
-		print(activite.get_actCode(), activite.get_actLib(), activite.get_EquipementId())
+		#print(activite.get_actCode(), activite.get_actLib(), activite.get_EquipementId())
 
 
 		if activite.get_actCode() == "None" : 
@@ -45,9 +43,10 @@ class dataBase :
 		if activite.get_actLib() == "None" : 
 			activite.set_actLib("null")
 
-		print(activite.get_actCode(), activite.get_actLib(), activite.get_EquipementId())
+		#print(activite.get_actCode(), activite.get_actLib(), activite.get_EquipementId())
 
-		self.c.execute('''INSERT INTO activites VALUES ({}, "{}", {})'''.format(activite.get_actCode(), activite.get_actLib(), activite.get_EquipementId()))
+		if activite.get_actCode() != "0" :  
+			self.c.execute('''INSERT INTO activites VALUES ({}, "{}", {})'''.format(activite.get_actCode(), activite.get_actLib(), activite.get_EquipementId()))
 
 
 	def insertInstallation(self, installation): 
@@ -101,6 +100,40 @@ class dataBase :
 			installations.append(inst.Installation(installation[0], installation[1], installation[2], installation[3], installation[4], installation[5], installation[6]))
 
 		return installations
+
+	def liste_installation(self):
+		results = self.c.execute("SELECT DISTINCT commune FROM installations ORDER BY commune")
+
+		insts = []
+		insts.append("all")
+
+		for inst in results:
+			insts.append(inst[0])
+
+		return insts
+
+	def liste_activite(self): 
+		results = self.c.execute("SELECT DISTINCT nomAct FROM activites ORDER BY nomAct")
+
+		acts= []
+		acts.append("all")
+
+		for act in results: 
+			acts.append(act[0])
+
+		return acts
+
+	def selection_act(self,activite):
+		return self.c.execute("SELECT i.commune, e.nomEqu, i.longitude, i.latitude FROM activites a, installations i, equipements e where i.numeroIns = e.numeroIns and e.numeroEqu = a.numeroEqu and a.nomAct = '{}' ".format(activite))
+
+	def selection_ins(self,commune):
+		print("SELECT a.nomAct, e.nomEqu, i.longitude, i.latitude FROM activites a, installations i, equipements e where i.numeroIns = e.numeroIns and e.numeroEqu = a.numeroEqu and i.commune = '{}' ".format(commune))
+		return self.c.execute("SELECT a.nomAct, e.nomEqu, i.longitude, i.latitude FROM activites a, installations i, equipements e where i.numeroIns = e.numeroIns and e.numeroEqu = a.numeroEqu and i.commune = '{}' ".format(commune))
+
+
+	def selection_act_ins(self,activite, commune): 
+		return self.c.execute("SELECT e.nomEqu, i.longitude, i.latitude FROM activites a, installations i, equipements e where i.numeroIns = e.numeroIns and e.numeroEqu = a.numeroEqu and i.commune = '{}' and a.nomAct = '{}' ".format(commune, activite))
+
 
 	def commit(self):
 		self.conn.commit()

@@ -1,5 +1,13 @@
+
 <%inherit file="base.html"/>
-<table border = 1 >
+
+<%block name="header">
+    <h2> ${titre} </h2>
+</%block>
+
+
+<table border = "1 collapse" >
+${maketh()}
 % for row in rows:
 ${makerow(row)}
 % endfor
@@ -12,5 +20,47 @@ ${makerow(row)}
 % endfor
 </tr>
 </%def>
+
+<%def name="maketh()">
+<tr>
+% for th in ths:
+<th>${th}</th>\
+% endfor
+</tr>
+</%def>
+
+
+<%block name="form">
+    
+    %if len(com) > 0: 
+
+    <form method="get" action="/requete"> 	
+    <label> choisir une commune : </label>
+	<select name="commune">
+	% for row in com:
+	${makelist(row)}
+	% endfor
+	</select>
+	<br>
+	<label> choisir une activite : </label>
+	<select name="activite">
+	% for row in act:
+	${makelist(row)}
+	% endfor
+	</select>
+	<br>
+	<input type="submit" value="lancer la requete">  
+
+	</form> 
+
+	% endif 
+
+</%block> 
  
+<%def name="makelist(row)">
+<option> 
+${row}
+</option>
+</%def>
+
  

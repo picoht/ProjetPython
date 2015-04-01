@@ -49,7 +49,20 @@ class WebManager(object):
         """
         Exposes the service at localhost:8080/
         """
-        return "There are {0} items".format(len(data))
+        view = Template(filename="template.html", lookup=lookup)
+
+        base2 = db.dataBase() 
+        listCom = base2.liste_installation(); 
+        listAct = base2.liste_activite(); 
+
+        return view.render(
+            com = listCom, 
+            act = listAct, 
+            rows=[], 
+            ths=[],
+            titre = "rechercher une activite ou une commune"
+        )        
+
 
     @cherrypy.expose
     def show_activites(self):
@@ -62,7 +75,11 @@ class WebManager(object):
         view = Template(filename="template.html", lookup=lookup)
 
         return view.render(
-            rows=[[activite.get_actLib(), activite.get_actCode()] for activite in results]
+            com = [],
+            act = [],
+            rows=[[activite.get_actCode(),activite.get_actLib(),activite.get_EquipementId()] for activite in results],
+            ths = ["numero de l'activite", "nom de l'activite", "numero de l'equipement"],
+            titre = "affichage des activites"
         )            
 
     @cherrypy.expose
@@ -76,7 +93,11 @@ class WebManager(object):
         view = Template(filename="template.html", lookup=lookup)
 
         return view.render(
-            rows=[[equipement.get_equNom()] for equipement in results]
+            com = [],
+            act = [],
+            rows=[[equipement.get_EquipementId(), equipement.get_equNom(), equipement.get_insNumeroInstall()] for equipement in results],
+            ths = ["numero de l'équiment", "nom de l'equipement", "numero de l'installation"],
+            titre = "affichage des equipememts"
         )    
 
     @cherrypy.expose
@@ -87,12 +108,45 @@ class WebManager(object):
         base2 = db.dataBase() 
         results = base2.selectInstallations()
 
-        s = ""
+        view = Template(filename="template.html", lookup=lookup)
 
-        for row in results:
-            s += str(row)
-            
-        return s
+        return view.render(
+            com = [],
+            act = [],
+            rows=[[installation.get_insNumeroInstall(), installation.get_insNom, installation.get_comLib(), installation.get_insCodePostal(), installation.get_longitude(), installation.get_latitude()] for installation in results],
+            ths = ["numero installation", " nom de l'installation", "commune", "code postal", " longitude", "latitude"],
+            titre = "affichage des installations"
+        )    
+
+    @cherrypy.expose
+    def requete(self, commune, activite): 
+
+        base2 = db.dataBase() 
+
+        view = Template(filename="template.html", lookup=lookup)
+        
+        if commune == "all": 
+            results = base2.selection_act(activite) 
+            titres = ["commune", "equipement", "latitude", "longitude"]
+            nom = "recherche des communes où on peut faire l'activité :" + activite 
+
+        elif activite == "all":
+            results = base2.selection_ins(commune)
+            titres = ["activite", "equipement", "latitude", "longitude"]
+            nom = "recherche des activites dans la commune de " + commune 
+        else: 
+            results = base2.selection_act_ins(activite, commune)
+            titres = ["equipement", "latitude", "longitude"]
+            nom = "recherche des equipements de " + activite + " dans la commune de " + commune 
+
+        return view.render(
+            com = [],
+            act = [],
+            rows=results, 
+            ths = titres,
+            titre = nom
+        )
+
 
     @cherrypy.expose
     def show(self, id):
@@ -105,6 +159,7 @@ class WebManager(object):
             return "Invalid ID"
 
         return json.dumps(item)
+
 
 
 cherrypy.quickstart(WebManager())
