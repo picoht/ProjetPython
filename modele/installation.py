@@ -10,7 +10,7 @@ class Installation :
 		self.latitude = latitude
 
 	def get_insNumeroInstall(self) : 
-		return str(sefl.insNumeroInstall)
+		return str(self.insNumeroInstall)
 
 	def get_insNom(self) : 
 		return str(self.insNom)
@@ -19,7 +19,7 @@ class Installation :
 		return str(self.comLib)
 
 	def get_insCodePostal(self) : 
-		return str(sefl.insCodePostal)
+		return str(self.insCodePostal)
 
 	def get_insLibelleVoie(self) : 
 		return str(self.insLibelleVoie)
@@ -27,7 +27,7 @@ class Installation :
 	def get_longitude(self) : 
 		return str(self.longitude) 
 
-	def get_latitudre(self) : 
+	def get_latitude(self) : 
 		return str(self.latitude) 
 
 

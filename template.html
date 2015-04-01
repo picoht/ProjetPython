@@ -1,0 +1,16 @@
+<%inherit file="base.html"/>
+<table border = 1 >
+% for row in rows:
+${makerow(row)}
+% endfor
+</table>
+ 
+<%def name="makerow(row)">
+<tr>
+% for name in row:
+<td>${name}</td>\
+% endfor
+</tr>
+</%def>
+ 
+ 
