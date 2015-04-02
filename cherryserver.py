@@ -125,15 +125,20 @@ class WebManager(object):
 
         view = Template(filename="template.html", lookup=lookup)
         
-        if commune == "all": 
+
+        if activite == "all" and commune == "all" : 
+            results = base2.selection_all()
+            titres = ["activite", "ville", "equipement", "latitude", "longitude"]
+            nom = "recherche des activites dans toutes les communes " 
+        elif commune == "all": 
             results = base2.selection_act(activite) 
             titres = ["commune", "equipement", "latitude", "longitude"]
             nom = "recherche des communes où on peut faire l'activité :" + activite 
-
         elif activite == "all":
             results = base2.selection_ins(commune)
             titres = ["activite", "equipement", "latitude", "longitude"]
             nom = "recherche des activites dans la commune de " + commune 
+     
         else: 
             results = base2.selection_act_ins(activite, commune)
             titres = ["equipement", "latitude", "longitude"]
@@ -146,20 +151,6 @@ class WebManager(object):
             ths = titres,
             titre = nom
         )
-
-
-    @cherrypy.expose
-    def show(self, id):
-        """
-        Exposes the service at localhost:8080/show/[id]/
-        """
-        try:
-            item = data[int(id)]
-        except (IndexError, IOError):
-            return "Invalid ID"
-
-        return json.dumps(item)
-
 
 
 cherrypy.quickstart(WebManager())

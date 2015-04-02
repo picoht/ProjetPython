@@ -134,6 +134,8 @@ class dataBase :
 	def selection_act_ins(self,activite, commune): 
 		return self.c.execute("SELECT e.nomEqu, i.longitude, i.latitude FROM activites a, installations i, equipements e where i.numeroIns = e.numeroIns and e.numeroEqu = a.numeroEqu and i.commune = '{}' and a.nomAct = '{}' ".format(commune, activite))
 
+	def selection_all(self):
+		return self.c.execute("SELECT a.nomAct, i.commune, e.nomEqu, i.longitude, i.latitude FROM activites a, installations i, equipements e where i.numeroIns = e.numeroIns and e.numeroEqu = a.numeroEqu ") 
 
 	def commit(self):
 		self.conn.commit()

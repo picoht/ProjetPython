@@ -5,13 +5,16 @@
     <h2> ${titre} </h2>
 </%block>
 
-
+%if len(ths) > 0 : 
 <table border = "1 collapse" >
 ${maketh()}
 % for row in rows:
 ${makerow(row)}
 % endfor
 </table>
+
+<a href="/"> retour </a> 
+%endif
  
 <%def name="makerow(row)">
 <tr>
@@ -52,6 +55,10 @@ ${makerow(row)}
 	<input type="submit" value="lancer la requete">  
 
 	</form> 
+
+	<a href =" /show_activites"> Voir toutes les activites </a> <br>
+	<a href =" /show_equipements"> Voir toutes les equipements </a> <br>
+	<a href =" /show_installations"> Voir toutes les installations </a> 
 
 	% endif 
 
