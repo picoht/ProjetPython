@@ -1,6 +1,9 @@
 class Equipement : 
 
 	def __init__(self, equipementId, equNom, insNumeroInstall): 
+		"""
+   		classe equipement 
+    	"""
 		self.equipementId = equipementId
 		self.equNom = equNom
 		self.insNumeroInstall = insNumeroInstall

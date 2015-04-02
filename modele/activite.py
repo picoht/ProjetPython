@@ -1,6 +1,9 @@
 class Activite : 
 
 	def __init__(self, actCode, actLib, equipementId):
+		""" 
+		classe activite 
+		""" 
 		self.equipementId = equipementId
 		self.actCode = actCode
 		self.actLib = actLib

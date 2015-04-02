@@ -85,7 +85,7 @@ class WebManager(object):
     @cherrypy.expose
     def show_equipements(self):
         """
-        Exposes the service at localhost:8080/show_all/
+        Exposes the service at localhost:8080/show_equipements/
         """
         base2 = db.dataBase() 
         results = base2.selectEquipements()
@@ -103,7 +103,7 @@ class WebManager(object):
     @cherrypy.expose
     def show_installations(self):
         """
-        Exposes the service at localhost:8080/show_all/
+        Exposes the service at localhost:8080/show_installations/
         """
         base2 = db.dataBase() 
         results = base2.selectInstallations()
@@ -120,7 +120,9 @@ class WebManager(object):
 
     @cherrypy.expose
     def requete(self, commune, activite): 
-
+        """
+        Exposes the service at localhost:8080/requete/commune/activite
+        """
         base2 = db.dataBase() 
 
         view = Template(filename="template.html", lookup=lookup)
